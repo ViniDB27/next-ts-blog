@@ -1,11 +1,11 @@
-import { postRepository } from '@/repositories/post'
+import { findAllPublicPosts } from '@/lib/post/queries'
 import { PostCoverImage } from '../PostCoverImage'
 import { PostSummary } from '../PostSummary'
 
 export async function PostsList() {
-  const posts = await postRepository.findAllPublic()
+  const posts = await findAllPublicPosts()
   return (
-    <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3'>
+    <div className='grid grid-cols-1 mb-16 gap-8 sm:grid-cols-2 md:grid-cols-3'>
       {posts.slice(1).map(post => (
         <div key={post.id} className='flex flex-col gap-4 group'>
           <PostCoverImage
