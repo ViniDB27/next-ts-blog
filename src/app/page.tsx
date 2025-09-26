@@ -1,6 +1,29 @@
+import { Container } from '@/components/Container'
+import { Header } from '@/components/Header'
+import { PostFeatured } from '@/components/PostFeatured'
+import { PostsList } from '@/components/PostsList'
+import { SpinLoader } from '@/components/SpinLoader'
+import clsx from 'clsx'
+import { Suspense } from 'react'
 
-export default function HomePage() {
+export default async function HomePage() {
   return (
-      <h1>Olá Mundo Next.JS</h1>
-  );
+    <Container>
+      <Header />
+
+      <Suspense fallback={<SpinLoader />}>
+        <PostFeatured />
+      </Suspense>
+
+      <Suspense fallback={<SpinLoader />}>
+        <PostsList />
+      </Suspense>
+
+      <footer>
+        <p className={clsx('text-6xl', 'font-bold', 'text-center', 'py-8')}>
+          FOOTER
+        </p>
+      </footer>
+    </Container>
+  )
 }
