@@ -1,10 +1,16 @@
 import { findAllPostAdmin } from '@/lib/post/queries/admin'
 import clsx from 'clsx'
 import Link from 'next/link'
-import { DeletePostButton } from '../admin/DeletePostButton'
+import { DeletePostButton } from '../DeletePostButton'
+import ErrorMessage from '../../ErrorMessage'
 
 export default async function PostsListAdmin() {
   const posts = await findAllPostAdmin()
+
+  if (posts.length <= 0)
+    return (
+      <ErrorMessage contentTtile='Eiii... 😓' content='Bora criar algo!!!' />
+    )
 
   return (
     <div className='mb-16'>

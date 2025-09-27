@@ -2,9 +2,19 @@ import clsx from 'clsx'
 import { PostCoverImage } from '../PostCoverImage'
 import { PostSummary } from '../PostSummary'
 import { findAllPublicPostsCached } from '@/lib/post/queries/public'
+import ErrorMessage from '../ErrorMessage'
 
 export async function PostFeatured() {
   const posts = await findAllPublicPostsCached()
+
+  if (posts.length <= 0)
+    return (
+      <ErrorMessage
+        contentTtile='Sem posts 😅'
+        content='Nossos admins estão trabalhando para publicar algo interessante volte daqui a pouco 🏃🏻‍♂️'
+      />
+    )
+
   const post = posts[0]
   const postLink = `/post/${post.slug}`
   return (
