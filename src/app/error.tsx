@@ -5,7 +5,6 @@ import { useEffect } from 'react'
 
 type RootErrorPageProps = {
   error: Error
-  reset: () => void
 }
 
 export default function RootErrorPage({ error }: Readonly<RootErrorPageProps>) {
@@ -15,8 +14,8 @@ export default function RootErrorPage({ error }: Readonly<RootErrorPageProps>) {
 
   return (
     <ErrorMessage
-      content='É constragedor mas não coseguimos tratar esse erro 🫣'
-      contentTtile='500'
+      content='É constrangedor mas não coseguimos tratar esse erro '
+      contentTtile='500 🫣'
       pageTitle='Internal Server Error'
     />
   )
