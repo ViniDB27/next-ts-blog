@@ -4,13 +4,13 @@ import clsx from 'clsx'
 
 type ErrorMessageProps = {
   pageTitle?: string
-  contentTtile: string
+  contentTitle: string
   content: React.ReactNode
 }
 
 export default function ErrorMessage({
   content,
-  contentTtile,
+  contentTitle,
   pageTitle,
 }: Readonly<ErrorMessageProps>) {
   return (
@@ -25,7 +25,7 @@ export default function ErrorMessage({
         )}
       >
         <div>
-          <h1 className='text-7xl/tight mb-4 font-extrabold'>{contentTtile}</h1>
+          <h1 className='text-7xl/tight mb-4 font-extrabold'>{contentTitle}</h1>
           <div>{content} </div>
         </div>
       </div>
