@@ -1,38 +1,38 @@
-'use client';
+'use client'
 
-import { Button } from '@/components/Button';
-import { InputCheckbox } from '@/components/InputCheckbox';
-import { InputText } from '@/components/InputText';
-import { MarkdownEditor } from '@/components/MarkdownEditor';
-import { useActionState, useEffect, useState } from 'react';
-import { ImageUploader } from '../ImageUploader';
-import { makePartialPublicPost, PublicPost } from '@/dto/post/dto';
-import { createPostAction } from '@/actions/post/create-post-action';
-import { toast } from 'react-toastify';
+import { Button } from '@/components/Button'
+import { InputCheckbox } from '@/components/InputCheckbox'
+import { InputText } from '@/components/InputText'
+import { MarkdownEditor } from '@/components/MarkdownEditor'
+import { useActionState, useEffect, useState } from 'react'
+import { ImageUploader } from '../ImageUploader'
+import { makePartialPublicPost, PublicPost } from '@/dto/post/dto'
+import { createPostAction } from '@/actions/post/create-post-action'
+import { toast } from 'react-toastify'
 
 type ManagePostFormProps = {
-  publicPost?: PublicPost;
-};
+  publicPost?: PublicPost
+}
 
-export function ManagePostForm({ publicPost }: ManagePostFormProps) {
+export function ManagePostForm({ publicPost }: Readonly<ManagePostFormProps>) {
   const initialState = {
     formState: makePartialPublicPost(publicPost),
     errors: [],
-  };
+  }
   const [state, action, isPending] = useActionState(
     createPostAction,
     initialState,
-  );
+  )
 
   useEffect(() => {
     if (state.errors.length > 0) {
-      toast.dismiss();
-      state.errors.forEach(error => toast.error(error));
+      toast.dismiss()
+      state.errors.forEach(error => toast.error(error))
     }
-  }, [state.errors]);
+  }, [state.errors])
 
-  const { formState } = state;
-  const [contentValue, setContentValue] = useState(publicPost?.content || '');
+  const { formState } = state
+  const [contentValue, setContentValue] = useState(publicPost?.content || '')
 
   return (
     <form action={action} className='mb-16'>
@@ -109,5 +109,5 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
         </div>
       </div>
     </form>
-  );
+  )
 }
