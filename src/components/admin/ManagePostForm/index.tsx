@@ -1,79 +1,81 @@
-'use client'
+'use client';
 
-import { Button } from '@/components/Button'
-import { InputCheckbox } from '@/components/InputCheckbox'
-import { InputText } from '@/components/InputText'
-import { MarkdownEditor } from '@/components/MarkdownEditor'
-import { useActionState, useEffect, useState } from 'react'
-import { ImageUploader } from '../ImageUploader'
-import { makePartialPublicPost, PublicPost } from '@/dto/post/dto'
-import { createPostAction } from '@/actions/post/create-post-action'
-import { toast } from 'react-toastify'
-import { updatePostAction } from '@/actions/post/update-post-action'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { Button } from '@/components/Button';
+import { InputCheckbox } from '@/components/InputCheckbox';
+import { InputText } from '@/components/InputText';
+import { MarkdownEditor } from '@/components/MarkdownEditor';
+import { useActionState, useEffect, useState } from 'react';
+import { ImageUploader } from '../ImageUploader';
+import { makePartialPublicPost, PublicPost } from '@/dto/post/dto';
+import { createPostAction } from '@/actions/post/create-post-action';
+import { toast } from 'react-toastify';
+import { updatePostAction } from '@/actions/post/update-post-action';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 type ManagePostFormUpdateProps = {
-  mode: 'update'
-  publicPost: PublicPost
-}
+  mode: 'update';
+  publicPost: PublicPost;
+};
 
 type ManagePostFormCreateProps = {
-  mode: 'create'
-}
+  mode: 'create';
+};
 
-type ManagePostFormProps = ManagePostFormUpdateProps | ManagePostFormCreateProps
+type ManagePostFormProps =
+  | ManagePostFormUpdateProps
+  | ManagePostFormCreateProps;
 
 export function ManagePostForm(props: ManagePostFormProps) {
-  const { mode } = props
-  const searchParams = useSearchParams()
-  const created = searchParams.get('created')
-  const router = useRouter()
+  const { mode } = props;
+  const searchParams = useSearchParams();
+  const created = searchParams.get('created');
+  const router = useRouter();
 
-  let publicPost
+  let publicPost;
   if (mode === 'update') {
-    publicPost = props.publicPost
+    publicPost = props.publicPost;
   }
 
   const actionsMap = {
     update: updatePostAction,
     create: createPostAction,
-  }
+  };
 
   const initialState = {
     formState: makePartialPublicPost(publicPost),
     errors: [],
-  }
+  };
   const [state, action, isPending] = useActionState(
     actionsMap[mode],
     initialState,
-  )
+  );
 
   useEffect(() => {
     if (state.errors.length > 0) {
-      toast.dismiss()
-      state.errors.forEach(error => toast.error(error))
+      toast.dismiss();
+      state.errors.forEach(error => toast.error(error));
     }
-  }, [state.errors])
+  }, [state.errors]);
 
   useEffect(() => {
     if (state.success) {
-      toast.dismiss()
-      toast.success('Post atualizado com sucesso!')
+      toast.dismiss();
+      toast.success('Post atualizado com sucesso!');
     }
-  }, [state.success])
+  }, [state.success]);
 
   useEffect(() => {
     if (created === '1') {
-      toast.dismiss()
-      toast.success('Post criado com sucesso!')
-      const url = new URL(window.location.href)
-      url.searchParams.delete('created')
-      router.replace(url.toString())
+      toast.dismiss();
+      toast.success('Post criado com sucesso!');
+      const url = new URL(window.location.href);
+      url.searchParams.delete('created');
+      router.replace(url.toString());
     }
-  }, [created, router])
+  }, [created, router]);
 
-  const { formState } = state
-  const [contentValue, setContentValue] = useState(publicPost?.content || '')
+  const { formState } = state;
+  const [contentValue, setContentValue] = useState(publicPost?.content || '');
 
   return (
     <form action={action} className='mb-16'>
@@ -159,5 +161,5 @@ export function ManagePostForm(props: ManagePostFormProps) {
         </div>
       </div>
     </form>
-  )
+  );
 }

@@ -1,18 +1,18 @@
-import PostsListAdmin from '@/components/admin/PostsListAdmin'
-import { SpinLoader } from '@/components/SpinLoader'
-import { Metadata } from 'next'
-import { Suspense } from 'react'
+import PostsListAdmin from '@/components/admin/PostsListAdmin';
+import { SpinLoader } from '@/components/SpinLoader';
+import { Metadata } from 'next';
+import { Suspense } from 'react';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Post Admin',
-}
+};
 
 export default async function AdminPostPage() {
   return (
-    <Suspense fallback={<SpinLoader className='min-h-20 mb-16' />}>
+    <Suspense fallback={<SpinLoader className='mb-16' />}>
       <PostsListAdmin />
     </Suspense>
-  )
+  );
 }

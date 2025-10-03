@@ -1,16 +1,16 @@
-import { findAllPostAdmin } from '@/lib/post/queries/admin'
-import clsx from 'clsx'
-import Link from 'next/link'
-import { DeletePostButton } from '../DeletePostButton'
-import ErrorMessage from '../../ErrorMessage'
+import { findAllPostAdmin } from '@/lib/post/queries/admin';
+import clsx from 'clsx';
+import Link from 'next/link';
+import { DeletePostButton } from '../DeletePostButton';
+import ErrorMessage from '../../ErrorMessage';
 
 export default async function PostsListAdmin() {
-  const posts = await findAllPostAdmin()
+  const posts = await findAllPostAdmin();
 
   if (posts.length <= 0)
     return (
-      <ErrorMessage contentTtile='Eiii... 😓' content='Bora criar algo!!!' />
-    )
+      <ErrorMessage contentTitle='Ei 😅' content='Bora criar algum post??' />
+    );
 
   return (
     <div className='mb-16'>
@@ -34,8 +34,8 @@ export default async function PostsListAdmin() {
 
             <DeletePostButton id={post.id} title={post.title} />
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }

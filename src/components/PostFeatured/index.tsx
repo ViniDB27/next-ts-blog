@@ -1,43 +1,38 @@
-import clsx from 'clsx'
-import { PostCoverImage } from '../PostCoverImage'
-import { PostSummary } from '../PostSummary'
-import { findAllPublicPostsCached } from '@/lib/post/queries/public'
-import ErrorMessage from '../ErrorMessage'
+import ErrorMessage from '../ErrorMessage';
+import { PostCoverImage } from '../PostCoverImage';
+import { PostSummary } from '../PostSummary';
+import { findAllPublicPostsCached } from '@/lib/post/queries/public';
 
 export async function PostFeatured() {
-  const posts = await findAllPublicPostsCached()
+  const posts = await findAllPublicPostsCached();
 
   if (posts.length <= 0)
     return (
       <ErrorMessage
-        contentTtile='Sem posts 😅'
-        content='Nossos admins estão trabalhando para publicar algo interessante volte daqui a pouco 🏃🏻‍♂️'
+        contentTitle='Ops 😅'
+        content='Ainda não criamos nenhum post.'
       />
-    )
+    );
 
-  const post = posts[0]
-  const postLink = `/post/${post.slug}`
+  const post = posts[0];
+
+  const postLink = `/post/${post.slug}`;
+
   return (
-    <section
-      className={clsx(
-        'grid',
-        'grid-cols-1',
-        'gap-8',
-        'mb-16',
-        'sm:grid-cols-2 ',
-        'group',
-      )}
-    >
+    <section className='grid grid-cols-1 gap-8 mb-16 sm:grid-cols-2 group'>
       <PostCoverImage
-        linkProps={{ href: postLink }}
+        linkProps={{
+          href: postLink,
+        }}
         imageProps={{
-          src: post.coverImageUrl,
-          height: 720,
           width: 1200,
+          height: 720,
+          src: post.coverImageUrl,
+          alt: post.title,
           priority: true,
-          alt: 'Titulo do post',
         }}
       />
+
       <PostSummary
         postLink={postLink}
         postHeading='h1'
@@ -46,5 +41,5 @@ export async function PostFeatured() {
         title={post.title}
       />
     </section>
-  )
+  );
 }

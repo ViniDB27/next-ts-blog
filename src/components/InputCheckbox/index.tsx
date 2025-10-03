@@ -1,17 +1,17 @@
-import clsx from 'clsx'
-import { useId } from 'react'
+import clsx from 'clsx';
+import { useId } from 'react';
 
 type InputCheckboxProps = {
-  labelText?: string
-  type?: 'checkbox'
-} & React.ComponentProps<'input'>
+  labelText?: string;
+  type?: 'checkbox';
+} & React.ComponentProps<'input'>;
 
 export function InputCheckbox({
   labelText = '',
   type = 'checkbox',
   ...props
 }: InputCheckboxProps) {
-  const id = useId()
+  const id = useId();
 
   return (
     <div className='flex items-center gap-3'>
@@ -31,5 +31,5 @@ export function InputCheckbox({
         </label>
       )}
     </div>
-  )
+  );
 }

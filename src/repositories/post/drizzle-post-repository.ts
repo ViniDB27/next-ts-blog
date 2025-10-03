@@ -1,57 +1,57 @@
-import { PostModel } from '@/models/post/post-model'
-import { PostRepository } from './post-repository'
-import { drizzleDb } from '@/db/drizzle'
-import { asyncDelay } from '@/utils/async-delay'
-import { postsTable } from '@/db/drizzle/schemas'
-import { eq } from 'drizzle-orm'
+import { PostModel } from '@/models/post/post-model';
+import { PostRepository } from './post-repository';
+import { drizzleDb } from '@/db/drizzle';
+import { asyncDelay } from '@/utils/async-delay';
+import { postsTable } from '@/db/drizzle/schemas';
+import { eq } from 'drizzle-orm';
 
-const simulateWaitMs = Number(process.env.SIMULATE_WAIT_IN_MS) || 0
+const simulateWaitMs = Number(process.env.SIMULATE_WAIT_IN_MS) || 0;
 
 export class DrizzlePostRepository implements PostRepository {
   async findAllPublic(): Promise<PostModel[]> {
-    await asyncDelay(simulateWaitMs, true)
+    await asyncDelay(simulateWaitMs, true);
 
     const posts = await drizzleDb.query.posts.findMany({
       orderBy: (posts, { desc }) => desc(posts.createdAt),
       where: (posts, { eq }) => eq(posts.published, true),
-    })
+    });
 
-    return posts
+    return posts;
   }
 
   async findBySlugPublic(slug: string): Promise<PostModel> {
-    await asyncDelay(simulateWaitMs, true)
+    await asyncDelay(simulateWaitMs, true);
 
     const post = await drizzleDb.query.posts.findFirst({
       where: (posts, { eq, and }) =>
         and(eq(posts.published, true), eq(posts.slug, slug)),
-    })
+    });
 
-    if (!post) throw new Error('Post não encontrado para slug')
+    if (!post) throw new Error('Post não encontrado para slug');
 
-    return post
+    return post;
   }
 
   async findAll(): Promise<PostModel[]> {
-    await asyncDelay(simulateWaitMs, true)
+    await asyncDelay(simulateWaitMs, true);
 
     const posts = await drizzleDb.query.posts.findMany({
       orderBy: (posts, { desc }) => desc(posts.createdAt),
-    })
+    });
 
-    return posts
+    return posts;
   }
 
   async findById(id: string): Promise<PostModel> {
-    await asyncDelay(simulateWaitMs, true)
+    await asyncDelay(simulateWaitMs, true);
 
     const post = await drizzleDb.query.posts.findFirst({
       where: (posts, { eq }) => eq(posts.id, id),
-    })
+    });
 
-    if (!post) throw new Error('Post não encontrado para ID')
+    if (!post) throw new Error('Post não encontrado para ID');
 
-    return post
+    return post;
   }
 
   async create(post: PostModel): Promise<PostModel> {
@@ -59,28 +59,28 @@ export class DrizzlePostRepository implements PostRepository {
       where: (posts, { or, eq }) =>
         or(eq(posts.id, post.id), eq(posts.slug, post.slug)),
       columns: { id: true },
-    })
+    });
 
     if (!!postExists) {
-      throw new Error('Post com ID ou Slug já existe na base de dados')
+      throw new Error('Post com ID ou Slug já existe na base de dados');
     }
 
-    await drizzleDb.insert(postsTable).values(post)
-    return post
+    await drizzleDb.insert(postsTable).values(post);
+    return post;
   }
 
   async delete(id: string): Promise<PostModel> {
     const post = await drizzleDb.query.posts.findFirst({
       where: (posts, { eq }) => eq(posts.id, id),
-    })
+    });
 
     if (!post) {
-      throw new Error('Post não existe')
+      throw new Error('Post não existe');
     }
 
-    await drizzleDb.delete(postsTable).where(eq(postsTable.id, id))
+    await drizzleDb.delete(postsTable).where(eq(postsTable.id, id));
 
-    return post
+    return post;
   }
 
   async update(
@@ -89,13 +89,13 @@ export class DrizzlePostRepository implements PostRepository {
   ): Promise<PostModel> {
     const oldPost = await drizzleDb.query.posts.findFirst({
       where: (posts, { eq }) => eq(posts.id, id),
-    })
+    });
 
     if (!oldPost) {
-      throw new Error('Post não existe')
+      throw new Error('Post não existe');
     }
 
-    const updatedAt = new Date().toISOString()
+    const updatedAt = new Date().toISOString();
     const postData = {
       author: newPostData.author,
       content: newPostData.content,
@@ -104,15 +104,15 @@ export class DrizzlePostRepository implements PostRepository {
       published: newPostData.published,
       title: newPostData.title,
       updatedAt,
-    }
+    };
     await drizzleDb
       .update(postsTable)
       .set(postData)
-      .where(eq(postsTable.id, id))
+      .where(eq(postsTable.id, id));
 
     return {
       ...oldPost,
       ...postData,
-    }
+    };
   }
 }

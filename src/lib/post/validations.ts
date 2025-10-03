@@ -1,6 +1,6 @@
-import { isUrlOrRelativePath } from '@/utils/is-url-or-relative-path'
-import sanitizeHtml from 'sanitize-html'
-import { z } from 'zod'
+import { isUrlOrRelativePath } from '@/utils/is-url-or-relative-path';
+import sanitizeHtml from 'sanitize-html';
+import { z } from 'zod';
 
 const PostBaseSchema = z.object({
   title: z
@@ -38,12 +38,12 @@ const PostBaseSchema = z.object({
     ])
     .default(false)
     .transform(val => val === 'on' || val === 'true' || val === true),
-})
+});
 
 // PostCreateSchema: igual ao base por enquanto
-export const PostCreateSchema = PostBaseSchema
+export const PostCreateSchema = PostBaseSchema;
 
 // PostUpdateSchema: pode incluir campos extras no futuro (ex: id)
 export const PostUpdateSchema = PostBaseSchema.extend({
   // id: z.string().uuid('ID inválido'),
-})
+});

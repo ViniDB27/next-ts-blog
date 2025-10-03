@@ -1,22 +1,23 @@
-'use client'
+'use client';
 
-import ErrorMessage from '@/components/ErrorMessage'
-import { useEffect } from 'react'
+import ErrorMessage from '@/components/ErrorMessage';
+import { useEffect } from 'react';
 
 type RootErrorPageProps = {
-  error: Error
-}
+  error: Error;
+  reset: () => void;
+};
 
-export default function RootErrorPage({ error }: Readonly<RootErrorPageProps>) {
+export default function RootErrorPage({ error }: RootErrorPageProps) {
   useEffect(() => {
-    console.log(error)
-  }, [error])
+    console.log(error);
+  }, [error]);
 
   return (
     <ErrorMessage
-      content='É constrangedor mas não coseguimos tratar esse erro '
-      contentTtile='500 🫣'
       pageTitle='Internal Server Error'
+      contentTitle='501'
+      content='Ocorreu um erro do qual nossa aplicação não conseguiu ser recuperar. Tente novamente mais tarde.'
     />
-  )
+  );
 }

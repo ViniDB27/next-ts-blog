@@ -1,6 +1,6 @@
-import { PostModel } from '@/models/post/post-model'
+import { PostModel } from '@/models/post/post-model';
 
-export type PublicPost = Omit<PostModel, 'updatedAt'>
+export type PublicPost = Omit<PostModel, 'updatedAt'>;
 
 export const makePartialPublicPost = (
   post?: Partial<PostModel>,
@@ -15,9 +15,9 @@ export const makePartialPublicPost = (
     coverImageUrl: post?.coverImageUrl || '',
     createdAt: post?.createdAt || '',
     published: post?.published || false,
-  }
-}
+  };
+};
 
 export const makePublicPostFromDb = (post: PostModel): PublicPost => {
-  return makePartialPublicPost(post)
-}
+  return makePartialPublicPost(post);
+};

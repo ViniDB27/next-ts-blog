@@ -1,13 +1,13 @@
-import clsx from 'clsx'
-import ReactMarkdown from 'react-markdown'
-import rehypeSanitize from 'rehype-sanitize'
-import remarkGfm from 'remark-gfm'
+import clsx from 'clsx';
+import ReactMarkdown from 'react-markdown';
+import rehypeSanitize from 'rehype-sanitize';
+import remarkGfm from 'remark-gfm';
 
 type SafeMarkdownProps = {
-  markdown: string
-}
+  markdown: string;
+};
 
-export function SafeMarkdown({ markdown }: Readonly<SafeMarkdownProps>) {
+export function SafeMarkdown({ markdown }: SafeMarkdownProps) {
   return (
     <div
       className={clsx(
@@ -28,17 +28,18 @@ export function SafeMarkdown({ markdown }: Readonly<SafeMarkdownProps>) {
         remarkPlugins={[remarkGfm]}
         components={{
           table: ({ node, ...props }) => {
-            if (!node?.children) return ''
+            if (!node?.children) return '';
+
             return (
               <div className='overflow-x-auto'>
                 <table className='w-full min-w-[600px]' {...props} />
               </div>
-            )
+            );
           },
         }}
       >
         {markdown}
       </ReactMarkdown>
     </div>
-  )
+  );
 }
