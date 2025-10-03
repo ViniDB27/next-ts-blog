@@ -1,26 +1,27 @@
-'use client';
+'use client'
 
-import { loginAction } from '@/actions/login/login-action';
-import { Button } from '@/components/Button';
-import { InputText } from '@/components/InputText';
-import clsx from 'clsx';
-import { LogInIcon } from 'lucide-react';
-import { useActionState, useEffect } from 'react';
-import { toast } from 'react-toastify';
+import { loginAction } from '@/actions/login/login-action'
+import { Button } from '@/components/Button'
+import { InputText } from '@/components/InputText'
+import clsx from 'clsx'
+import { LogInIcon } from 'lucide-react'
+import Link from 'next/link'
+import { useActionState, useEffect } from 'react'
+import { toast } from 'react-toastify'
 
 export function LoginForm() {
   const initialState = {
-    username: '',
-    error: '',
-  };
-  const [state, action, isPending] = useActionState(loginAction, initialState);
+    email: '',
+    errors: [],
+  }
+  const [state, action, isPending] = useActionState(loginAction, initialState)
 
   useEffect(() => {
-    if (state.error) {
-      toast.dismiss();
-      toast.error(state.error);
+    if (state.errors.length > 0) {
+      toast.dismiss()
+      state.errors.forEach((e: any) => toast.error(e))
     }
-  }, [state]);
+  }, [state])
 
   return (
     <div
@@ -29,31 +30,35 @@ export function LoginForm() {
         'text-center max-w-sm mt-16 mb-32 mx-auto',
       )}
     >
-      <form action={action} className='flex-1 flex flex-col gap-6'>
+      <form action={action} className="flex-1 flex flex-col gap-6">
         <InputText
-          type='text'
-          name='username'
-          labelText='Usuário'
-          placeholder='Seu usuário'
+          type="email"
+          name="email"
+          labelText="E-mail"
+          placeholder="Seu e-mail"
           disabled={isPending}
-          defaultValue={state.username}
+          defaultValue={state.email}
+          required
         />
 
         <InputText
-          type='password'
-          name='password'
-          labelText='Senha'
-          placeholder='Sua senha'
+          type="password"
+          name="password"
+          labelText="Senha"
+          placeholder="Sua senha"
           disabled={isPending}
+          required
         />
 
-        <Button disabled={isPending} type='submit' className='mt-4'>
+        <Button disabled={isPending} type="submit" className="mt-4">
           <LogInIcon />
           Entrar
         </Button>
 
-        {!!state.error && <p className='text-red-600'>{state.error}</p>}
+        <p className="text-sm/tight">
+          <Link href="/user/new">Criar minha conta</Link>
+        </p>
       </form>
     </div>
-  );
+  )
 }
